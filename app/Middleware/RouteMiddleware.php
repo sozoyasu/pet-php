@@ -2,23 +2,23 @@
 
 namespace App\Middleware;
 
-use App\Support\Http\JsonResponse;
-use App\Support\Router\Route;
+use App\Support\Application\RouteHandleResolver;
 use App\Support\Router\Router;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use RuntimeException;
 
 class RouteMiddleware implements MiddlewareInterface
 {
     private Router $router;
+    private RouteHandleResolver $resolver;
 
-    public function __construct(Router $router)
+    public function __construct(Router $router, RouteHandleResolver $resolver)
     {
         $this->router = $router;
+        $this->resolver = $resolver;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -32,16 +32,7 @@ class RouteMiddleware implements MiddlewareInterface
                 }
             }
 
-            $routeHandler = $route->getHandler();
-
-            if (is_string($routeHandler)) {
-                $routeHandler = new $routeHandler();
-                return $routeHandler($request);
-            } elseif (is_a($routeHandler, ResponseInterface::class)) {
-                return $routeHandler;
-            } elseif (is_callable($routeHandler) || is_object($routeHandler)) {
-                return $routeHandler($request);
-            }
+            return $this->resolver->resolve($route->getHandler(), $request);
         } catch (Exception $exception) {}
 
         return $handler->handle($request);

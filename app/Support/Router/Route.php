@@ -18,7 +18,7 @@ class Route
     private ?string $name;
     private array $attributes = [];
 
-    public function __construct(string $pattern, mixed $handler, array|Method $method = Method::GET, string $name = null,  array $attributes = [])
+    public function __construct(string $pattern, mixed $handler, array|Method $method = Method::GET, string $name = null, array $attributes = [])
     {
         $this->pattern = $pattern;
         $this->handler = $handler;

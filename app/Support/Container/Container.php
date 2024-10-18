@@ -2,17 +2,30 @@
 
 namespace App\Support\Container;
 
+use App\Middleware\RouteMiddleware;
+use App\Support\Container\Exceptions\ContainerException;
 use App\Support\Container\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
+use ReflectionException;
 
 class Container implements ContainerInterface
 {
     private array $definitions = [];
     private array $cache = [];
 
+    public function __construct(array $definitions = [])
+    {
+        $this->definitions = $definitions;
+    }
+
     /**
      * Возвращает сервис по ключу
+     * @param string $id
+     * @return mixed
+     * @throws ContainerException
      * @throws NotFoundException
+     * @throws ReflectionException
      */
     public function get(string $id): mixed
     {
@@ -21,8 +34,37 @@ class Container implements ContainerInterface
         }
 
         if (!$this->has($id)) {
+            if (class_exists($id)) {
+                $reflection = new ReflectionClass($id);
+
+                if ($constructor = $reflection->getConstructor()) {
+                    $attributes = [];
+
+                    foreach ($constructor->getParameters() as $param) {
+                        $className = $param->getType()->getName();
+
+                        // Если запрашивается объект контейнера - инжектим текущий объект
+                        if (is_a($this, $className) || is_a(ContainerInterface::class, $className)) {
+                            $attributes[] = $this;
+                        // Если существует класс, дергаем его из контейнера
+                        } elseif ($this->has($className) || class_exists($className)) {
+                            $attributes[] = $this->get($className);
+                        } else {
+                            throw new ContainerException('Unsupported parameter type: ' . $param->getType()->getName());
+                        }
+                    }
+
+                    $instance = $reflection->newInstanceArgs($attributes);
+                } else {
+                    $instance = new $id();
+                }
+
+                return $this->cache[$id] = $instance;
+            }
+
             throw new NotFoundException("Service #{$id} not found");
         }
+
 
         $definition = $this->definitions[$id];
 

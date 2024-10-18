@@ -13,10 +13,12 @@ use SplQueue;
 class Handler implements RequestHandlerInterface
 {
     private SplQueue $pipes;
+    private HandleResolver $resolver;
 
-    public function __construct(SplQueue $pipes)
+    public function __construct(SplQueue $pipes, HandleResolver $resolver)
     {
         $this->pipes = $pipes;
+        $this->resolver = $resolver;
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
@@ -30,10 +32,8 @@ class Handler implements RequestHandlerInterface
             throw new QueueIsEmptiedException('Queue is empty');
         }
 
-        $resolver = new Resolver();
-
         /** @var MiddlewareInterface $current */
-        $current = $resolver->resolve($this->pipes->dequeue());
+        $current = $this->resolver->resolve($this->pipes->dequeue());
 
         return $current->process($request, $this);
     }

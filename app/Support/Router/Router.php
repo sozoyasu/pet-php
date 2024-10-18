@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Router
 {
     /** @var Route[] */
-    private array $routes;
+    private array $routes = [];
 
     public function route(Route $route): static
     {

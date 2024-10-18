@@ -11,10 +11,12 @@ use SplQueue;
 class Pipeline
 {
     private SplQueue $pipes;
+    private HandleResolver $resolver;
 
-    public function __construct()
+    public function __construct(HandleResolver $resolver)
     {
         $this->pipes = new SplQueue();
+        $this->resolver = $resolver;
     }
 
     public function pipe(MiddlewareInterface|string|callable $callback): static
@@ -26,7 +28,7 @@ class Pipeline
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $handler = new Handler($this->pipes);
+        $handler = new Handler($this->pipes, $this->resolver);
 
         return $handler->handle($request);
     }

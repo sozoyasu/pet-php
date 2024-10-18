@@ -14,7 +14,7 @@ trait MessageTrait
         return $this->version;
     }
 
-    public function withProtocolVersion(string $version): MessageInterface
+    public function withProtocolVersion(string $version): self
     {
         $new = clone $this;
         $new->version = $version;
@@ -48,7 +48,7 @@ trait MessageTrait
         return implode(',', $header);
     }
 
-    public function withHeader(string $name, $value): MessageInterface
+    public function withHeader(string $name, $value): self
     {
         $new = clone $this;
         $new->headers[$name] = is_array($value) ? $value : [$value];
@@ -56,7 +56,7 @@ trait MessageTrait
         return $new;
     }
 
-    public function withAddedHeader(string $name, $value): MessageInterface
+    public function withAddedHeader(string $name, $value): self
     {
         $new = clone $this;
         $new->headers[$name][] = $value;
@@ -64,7 +64,7 @@ trait MessageTrait
         return $new;
     }
 
-    public function withoutHeader(string $name): MessageInterface
+    public function withoutHeader(string $name): self
     {
         $new = clone $this;
         unset($new->headers[$name]);
