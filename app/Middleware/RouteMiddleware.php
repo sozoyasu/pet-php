@@ -42,9 +42,7 @@ class RouteMiddleware implements MiddlewareInterface
             } elseif (is_callable($routeHandler) || is_object($routeHandler)) {
                 return $routeHandler($request);
             }
-        } catch (Exception $exception) {
-
-        }
+        } catch (Exception $exception) {}
 
         return $handler->handle($request);
     }

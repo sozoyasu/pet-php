@@ -47,18 +47,18 @@ class Route
             return false;
         }
 
-        if ($this->getPattern() == '/' || $this->getPattern() == '') {
-            return $uri == '/';
-        }
+        if (str_contains($this->getPattern(), '{')) {
+            $default = '[^}^/]+'; // \d+
+            $pattern = preg_replace_callback('~\{([^\}]+)\}~', fn ($matches) => '(?P<'.$matches[1].'>'.$default.')', $this->getPattern());
+            preg_match('~' . $pattern . '$~', $uri,$matchesAttributes, PREG_UNMATCHED_AS_NULL);
 
-        $pattern = preg_replace_callback('~\{([^\}]+)\}~', fn ($matches) => '(?P<'.$matches[1].'>[^}]+)', $this->getPattern());
+            if (!empty($matchesAttributes)) {
+                $attributes = array_filter($matchesAttributes, '\is_string', ARRAY_FILTER_USE_KEY);
+                $this->addAttributes($attributes);
 
-        preg_match('~' . $pattern . '~', $uri,$matchesAttributes);
-
-        if (!empty($matchesAttributes)) {
-            $attributes = array_filter($matchesAttributes, '\is_string', ARRAY_FILTER_USE_KEY);
-            $this->addAttributes($attributes);
-
+                return true;
+            }
+        } elseif ($uri == $this->getPattern()) {
             return true;
         }
 
