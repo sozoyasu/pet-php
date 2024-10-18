@@ -8,7 +8,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
 
-class MiddlewarePipeline
+class Pipeline
 {
     private SplQueue $pipes;
 
@@ -26,7 +26,7 @@ class MiddlewarePipeline
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $handler = new MiddlewareHandler($this->pipes);
+        $handler = new Handler($this->pipes);
 
         return $handler->handle($request);
     }

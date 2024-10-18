@@ -11,7 +11,7 @@ use App\Middleware\NotFoundMiddleware;
 use App\Middleware\RouteMiddleware;
 use App\Support\Http\RequestFactory;
 use App\Support\Http\ResponseSender;
-use App\Support\Middleware\MiddlewarePipeline;
+use App\Support\Middleware\Pipeline;
 use App\Support\Router\Route;
 use App\Support\Router\Router;
 
@@ -26,7 +26,7 @@ $router->route(Route::create('/blog', BlogPostsAction::class)->withName('blog'))
 $router->route(Route::create('/admin', AdminAction::class)->withName('blog'));
 $router->route(Route::create('/', HomeAction::class)->withName('home'));
 
-$pipeline = new MiddlewarePipeline();
+$pipeline = new Pipeline();
 $pipeline->pipe( ActionProfilerMiddleware::class);
 $pipeline->pipe( DeveloperMiddleware::class);
 $pipeline->pipe( new RouteMiddleware($router));

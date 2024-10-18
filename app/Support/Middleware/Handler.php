@@ -10,7 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
 
-class MiddlewareHandler implements RequestHandlerInterface
+class Handler implements RequestHandlerInterface
 {
     private SplQueue $pipes;
 
