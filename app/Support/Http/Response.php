@@ -14,13 +14,17 @@ class Response implements ResponseInterface
     private StreamInterface $body;
     private StatusCode $status;
 
-    public function __construct(string|StreamInterface $body, int|StatusCode $status = StatusCode::Code200)
+    public function __construct($body, int|StatusCode $status = StatusCode::Code200, array $headers = [])
     {
-        if (is_string($body)) {
-            $stream = new Stream('php://temp', 'wb+');
-            $stream->write($body);
-            $stream->rewind();
-            $body = $stream;
+        if (!is_a($body, StreamInterface::class)) {
+            if (is_string($body)) {
+                $stream = new Stream('php://temp', 'wb+');
+                $stream->write($body);
+                $stream->rewind();
+                $body = $stream;
+            } else {
+                throw new \InvalidArgumentException('$body must be a string or a StreamInterface');
+            }
         }
 
         if (is_int($status)) {
@@ -29,6 +33,8 @@ class Response implements ResponseInterface
 
         $this->body = $body;
         $this->status = $status;
+        $this->headers = $headers;
+        $this->normalizeHeaders();
     }
 
     public function getBody(): StreamInterface

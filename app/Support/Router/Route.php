@@ -92,7 +92,7 @@ class Route
         return $this->handler;
     }
 
-    public function allAttributes(): array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

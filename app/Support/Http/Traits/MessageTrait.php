@@ -71,4 +71,18 @@ trait MessageTrait
 
         return $new;
     }
+
+    /**
+     * Пробегает по массиву заголовков и если среди значений не вложенный массив - делает его таким
+     * @param array $headers
+     * @return void
+     */
+    protected function normalizeHeaders(): void
+    {
+        foreach ($this->headers as $name => $value) {
+            if (!is_array($value)) {
+                $this->headers[$name] = [$value];
+            }
+        }
+    }
 }
