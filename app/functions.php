@@ -18,6 +18,18 @@ function root_path(string $inner = ''): string
 }
 
 /**
+ * Возвращает значение из $_ENV, либо значение по умолчанию $default
+ *
+ * @param string $key
+ * @param null $default
+ * @return mixed
+ */
+function env(string $key, mixed $default = null): mixed
+{
+    return $_ENV[$key] ?? $default;
+}
+
+/**
  * Распечатывает данные
  *
  * @param mixed $data
