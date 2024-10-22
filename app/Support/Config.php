@@ -13,6 +13,11 @@ class Config
         $this->options = $options;
     }
 
+    public function __invoke(string $key, mixed $default = null): string|array|int|float|bool|null
+    {
+        return $this->get($key, $default);
+    }
+
     /**
      * Возвращает параметр по ключу
      *

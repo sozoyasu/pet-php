@@ -21,12 +21,12 @@ services:
 
   mysql:
     image: mysql:8.0
+    ports:
+      - "3306:3306"
     volumes:
       - database:/var/lib/mysql
     env_file:
       .env
-    ports:
-      - "3306:3306"
 
   node:
     image: node:20.18.0-alpine

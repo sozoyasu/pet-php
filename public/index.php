@@ -13,11 +13,10 @@ require __DIR__.'/../config/bootstrap.php';
 
 $app = $container->get(Application::class);
 
-$env = parse_ini_file(__DIR__.'/../.env');
+$migrator = $container->get(Migrator::class);
+$migrator->down();
+dump($migrator);
 
-dump($_ENV);
-dump(getenv('MYSQL_ROOT_PASSWORD', true));
-dump(getenv('MYSQL_USER', true));
 
 exit();
 
