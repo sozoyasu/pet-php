@@ -7,7 +7,7 @@ use App\Support\Console\Input;
 use App\Support\Console\Output;
 use App\Support\Migration\Migrator;
 
-class MigrationUpCommand extends Command
+class MigrationDownCommand extends Command
 {
     public function __construct(
         private Migrator $migrator
@@ -16,7 +16,7 @@ class MigrationUpCommand extends Command
     public function execute(Input $input, Output $output): void
     {
         $output->writeln('Migrating database...');
-        $this->migrator->up();
-        $output->success('Migration finished');
+        $this->migrator->down();
+        $output->success('Migration success removed');
     }
 }

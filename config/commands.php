@@ -1,7 +1,9 @@
 <?php
 
-use App\Console\HelloWorldCommand;
+use App\Console\MigrationDownCommand;
+use App\Console\MigrationUpCommand;
 
 return [
-    'hello:world' => HelloWorldCommand::class
+    'migration:up' => MigrationUpCommand::class,
+    'migration:down' => MigrationDownCommand::class,
 ];

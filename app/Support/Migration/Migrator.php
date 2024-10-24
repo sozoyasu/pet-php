@@ -22,7 +22,7 @@ class Migrator
                 'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
                 'CONSTRAINT id PRIMARY KEY (id)',
             ]);
-            $pdo->exec("create table migrations({$lines})");
+            $pdo->exec("CREATE TABLE migrations({$lines})");
         }
     }
 
