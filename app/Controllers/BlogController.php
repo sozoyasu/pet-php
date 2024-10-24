@@ -6,16 +6,19 @@ use App\Entities\Blog\Post;
 use App\Repositories\Blog\PostsRepository;
 use App\Support\Http\HtmlResponse;
 use App\Support\Http\JsonResponse;
+use App\Support\View\ViewRender;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class BlogController
 {
     private PostsRepository $posts;
+    private ViewRender $view;
 
-    public function __construct(PostsRepository $posts)
+    public function __construct(PostsRepository $posts, ViewRender $view)
     {
         $this->posts = $posts;
+        $this->view = $view;
     }
 
     public function index(ServerRequestInterface $request): ResponseInterface
@@ -30,7 +33,7 @@ class BlogController
 //        dump($post);
 //        dump($savedPost);
 
-        return new HtmlResponse('123');
+        return new HtmlResponse($this->view->render('index'));
     }
 
     public function post(ServerRequestInterface $request): ResponseInterface

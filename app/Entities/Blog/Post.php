@@ -2,9 +2,11 @@
 
 namespace App\Entities\Blog;
 
+use App\Interfaces\Arrayable;
 use Carbon\Carbon;
+use JsonSerializable;
 
-class Post
+class Post implements Arrayable
 {
     public int $id;
     public string $title;
@@ -17,5 +19,17 @@ class Post
     {
         $this->title = $title;
         $this->annotation = $annotation;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'annotation' => $this->annotation,
+            'content' => $this->content,
+            'createdAt' => $this->createdAt->toDateTimeString(),
+            'updatedAt' => $this->updatedAt->toDateTimeString(),
+        ];
     }
 }
