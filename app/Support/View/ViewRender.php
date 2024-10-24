@@ -5,10 +5,12 @@ namespace App\Support\View;
 class ViewRender
 {
     private string $path;
+    private array $extensions = [];
 
-    public function __construct(string $path)
+    public function __construct(string $path, array $extensions = [])
     {
         $this->path = $path;
+        $this->extensions = $extensions;
     }
 
     public function render(string $template, array $attributes = []): string
@@ -24,6 +26,8 @@ class ViewRender
     private function buffer(string $path, array $attributes = []): string
     {
         extract($attributes, EXTR_OVERWRITE);
+        extract($this->extensions, EXTR_OVERWRITE);
+
         ob_start();
         include $path;
         return ob_get_clean();

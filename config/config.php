@@ -1,6 +1,10 @@
 <?php
 
+use App\View\Extensions\HelloWorldViewExtension;
+
 return [
+    'environment' => env('ENVIRONMENT', 'development'),
+
     'auth' => [
         'username' => 'admin',
         'password' => '1234',
@@ -16,6 +20,9 @@ return [
     ],
 
     'view' => [
-        'templates_patch' => root_path('view'),
+        'templates_patch' => root_path('resources/templates'),
+        'extensions' => [
+            'helloWorld' => HelloWorldViewExtension::class,
+        ],
     ],
 ];

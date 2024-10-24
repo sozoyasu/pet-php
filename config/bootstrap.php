@@ -21,7 +21,17 @@ $container->set(HandleResolver::class, fn(Container $container) => new Middlewar
 $container->set(Config::class, fn() => new Config(require('config.php')));
 
 $container->set(ViewRender::class, function(ContainerInterface $container) {
-    return new ViewRender($container->get(Config::class)->get('view.templates_patch'));
+    $config = $container->get(Config::class);
+    $extensions = [];
+
+    foreach ($config('view.extensions', []) as $name => $class) {
+        $extensions[$name] = $container->get($class);
+    }
+
+    return new ViewRender(
+        path: $config('view.templates_patch'),
+        extensions: $extensions,
+    );
 });
 
 $container->set(PDO::class, function(ContainerInterface $container) {
