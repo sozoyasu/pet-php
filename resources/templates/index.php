@@ -1,5 +1,12 @@
 <?php
+
+use App\Support\View\ViewRender;
 use App\View\Extensions\HelloWorldViewExtension;
+
+/**
+ * @var ViewRender $this
+ * @method HelloWorldViewExtension vite()
+ */
 
 /** @var HelloWorldViewExtension $helloWorld */
 ?>
@@ -12,6 +19,8 @@ use App\View\Extensions\HelloWorldViewExtension;
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $title ?? '' ?></title>
+
+    <?= $this->vite ?>
 
     <script type="module" src="http://localhost:3000/@vite/client"></script>
     <link rel="stylesheet" href="http://localhost:3000/resources/css/app.css">

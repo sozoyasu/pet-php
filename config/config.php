@@ -1,9 +1,14 @@
 <?php
 
+use App\Console\MigrationDownCommand;
+use App\Console\MigrationUpCommand;
 use App\View\Extensions\HelloWorldViewExtension;
 
 return [
-    'environment' => env('ENVIRONMENT', 'development'),
+    'app' => [
+        'environment' => env('ENVIRONMENT', 'development'),
+        'url' => env('APP_URL', 'http://localhost'),
+    ],
 
     'auth' => [
         'username' => 'admin',
@@ -24,5 +29,12 @@ return [
         'extensions' => [
             'helloWorld' => HelloWorldViewExtension::class,
         ],
+    ],
+
+    'console' => [
+        'commands' => [
+            'migration:up' => MigrationUpCommand::class,
+            'migration:down' => MigrationDownCommand::class,
+        ]
     ],
 ];

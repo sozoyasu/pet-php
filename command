@@ -2,9 +2,11 @@
 
 /**
  * @var ContainerInterface $container
+ * @var Config $config
  * @var Command $command
  */
 
+use App\Support\Config;
 use App\Support\Console\Command;
 use App\Support\Console\Input;
 use Psr\Container\ContainerInterface;
@@ -12,7 +14,8 @@ use App\Support\Console\Output;
 
 require __DIR__.'/config/bootstrap.php';
 
-$commands = require './config/commands.php';
+$config = $container->get(Config::class);
+$commands = $config('console.commands');
 $output = new Output();
 
 if (!isset($argv[1])) {
