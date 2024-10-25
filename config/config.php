@@ -7,7 +7,7 @@ use App\View\Extensions\HelloWorldViewExtension;
 return [
     'app' => [
         'environment' => env('APP_ENVIRONMENT', 'development'),
-        'isProduction' => env('APP_ENVIRONMENT', 'production') === 'production',
+        'is_production' => env('APP_ENVIRONMENT', 'production') === 'production',
         'url' => env('APP_URL', 'http://localhost'),
     ],
 
@@ -26,7 +26,7 @@ return [
     ],
 
     'view' => [
-        'templates_patch' => root_path('resources/templates'),
+        'templates_patch' => root_path('resources/view'),
         'extensions' => [
             'helloWorld' => HelloWorldViewExtension::class,
         ],

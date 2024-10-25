@@ -32,7 +32,7 @@ $container->set(ViewRender::class, function(ContainerInterface $container) {
 
     $render->expand('vite', function () use ($config) {
         return new ViteViewExtension(
-            isProduction: $config('isProduction'),
+            isProduction: $config('app.is_production', false),
             viteHost: env('VITE_HOST'),
             vitePort: env('VITE_PORT'),
             viteHttps: env('VITE_HTTP') == 'https',

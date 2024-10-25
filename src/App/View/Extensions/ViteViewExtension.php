@@ -13,7 +13,7 @@ class ViteViewExtension
     private array $productionPathReplaces;
     private bool $developmentViteScriptIsIncluded = false;
 
-    public function __construct($isProduction = false, string $viteHost = 'localhost', int $vitePort = 3000, $viteHttps = false, $productionPathReplaces = [])
+    public function __construct(bool $isProduction = false, string $viteHost = 'localhost', int $vitePort = 3000, $viteHttps = false, $productionPathReplaces = [])
     {
         $this->isProduction = $isProduction;
         $this->viteHost = $viteHost;

@@ -18,7 +18,7 @@ class HomeAction
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        return new HtmlResponse($this->view->render('index', [
+        return new HtmlResponse($this->view->render('web/home_article', [
             'title' => 'Главная страница',
         ]));
     }

@@ -3,22 +3,41 @@
 namespace Modules\View;
 
 use InvalidArgumentException;
+use SplStack;
 
 class ViewRender
 {
     private string $path;
     private array $extensions = [];
     private array $cachedExtensions = [];
+    private array $content = [];
+    private SplStack $sectionsStack;
+    private string|null $extend = null;
 
     public function __construct(string $path, array $extensions = [])
     {
         $this->path = $path;
         $this->extensions = $extensions;
+        $this->sectionsStack = new SplStack();
     }
 
     public function render(string $template, array $attributes = []): string
     {
-        return $this->buffer($this->getTemplatePath($template), $attributes);
+        extract($attributes, EXTR_OVERWRITE);
+
+        ob_start();
+        include $this->getTemplatePath($template);
+        $rendered = ob_get_clean();
+
+        if (empty($this->extend)) {
+            return $rendered;
+        }
+
+        $template = $this->extend;
+        $this->extend = null;
+
+
+        return $this->render($template, $attributes);
     }
 
     private function getTemplatePath(string $template): string
@@ -26,13 +45,31 @@ class ViewRender
         return $this->path . DIRECTORY_SEPARATOR . $template . '.php';
     }
 
-    private function buffer(string $path, array $attributes = []): string
-    {
-        extract($attributes, EXTR_OVERWRITE);
+    // ------------------------------------------------
+    // Extends & Sections
+    // ------------------------------------------------
 
+    public function extend(string $template): static
+    {
+        $this->extend = $template;
+
+        return $this;
+    }
+
+    public function content(string $name): string
+    {
+        return $this->content[$name] ?? '';
+    }
+
+    public function section(string $name): void
+    {
+        $this->sectionsStack->push($name);
         ob_start();
-        include $path;
-        return ob_get_clean();
+    }
+
+    public function endSection(): void
+    {
+        $this->content[$this->sectionsStack->pop()] = ob_get_clean();
     }
 
     // ------------------------------------------------
@@ -65,21 +102,4 @@ class ViewRender
 
         throw new InvalidArgumentException('Invalid view extension: ' . $name);
     }
-
-//    public function __call(string $name, array $arguments)
-//    {
-//        if (array_key_exists($name, $this->cachedExtensions) && (is_object($this->cachedExtensions[$name]) || is_callable($this->cachedExtensions[$name]))) {
-//            $object = $this->cachedExtensions[$name];
-//
-//            return $object(...$arguments);
-//        }
-//
-//        if (array_key_exists($name, $this->extensions)) {
-//            $callable = $this->extensions[$name];
-//
-//            return $this->cachedExtensions[$name] = $callable()(...$arguments);
-//        }
-//
-//        throw new InvalidArgumentException('Invalid view extension: ' . $name);
-//    }
 }
