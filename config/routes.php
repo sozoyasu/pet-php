@@ -1,12 +1,12 @@
 <?php
 
-/** @var Application $app */
+/** @var \Modules\Application\Application $app */
 
 use App\Controllers\AboutAction;
 use App\Controllers\AdminAction;
 use App\Controllers\BlogController;
 use App\Controllers\HomeAction;
-use App\Support\Application\Application;
+use Modules\Application\Application;
 
 $app->get('/admin', AdminAction::class, 'admin.index');
 $app->get('/about', AboutAction::class, 'blog.post');

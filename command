@@ -2,15 +2,15 @@
 
 /**
  * @var ContainerInterface $container
- * @var Config $config
- * @var Command $command
+ * @var \Modules\Config $config
+ * @var \Modules\Console\Command $command
  */
 
-use App\Support\Config;
-use App\Support\Console\Command;
-use App\Support\Console\Input;
+use Modules\Config;
+use Modules\Console\Command;
+use Modules\Console\Input;
+use Modules\Console\Output;
 use Psr\Container\ContainerInterface;
-use App\Support\Console\Output;
 
 require __DIR__.'/config/bootstrap.php';
 

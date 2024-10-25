@@ -1,11 +1,11 @@
 <?php
 
 /** @var ContainerInterface $container */
-/** @var Application $app */
+/** @var \Modules\Application\Application $app */
 
-use App\Support\Application\Application;
-use App\Support\Http\RequestFactory;
-use App\Support\Http\ResponseSender;
+use Modules\Application\Application;
+use Modules\Http\RequestFactory;
+use Modules\Http\ResponseSender;
 use Psr\Container\ContainerInterface;
 
 require __DIR__.'/../config/bootstrap.php';

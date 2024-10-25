@@ -2,6 +2,7 @@
 
 namespace App\Support\Http;
 
+use Modules\Http\Request;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase

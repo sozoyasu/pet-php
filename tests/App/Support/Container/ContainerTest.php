@@ -2,10 +2,10 @@
 
 namespace App\Support\Container;
 
-use App\Support\Container\Exceptions\NotFoundException;
+use Modules\Container\Container;
+use Modules\Container\Exceptions\NotFoundException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use function PHPUnit\Framework\assertEquals;
 
 class ContainerTest extends TestCase
 {

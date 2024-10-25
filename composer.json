@@ -4,10 +4,11 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "src/App/",
+            "Modules\\": "src/Modules/"
         },
         "files": [
-            "app/functions.php"
+            "src/functions.php"
         ]
     },
     "authors": [

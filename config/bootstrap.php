@@ -1,12 +1,12 @@
 <?php
 
-use App\Support\Application\MiddlewareHandleResolver;
-use App\Support\Config;
-use App\Support\Container\Container;
-use App\Support\Middleware\HandleResolver;
-use App\Support\Migration\Migrator;
-use App\Support\View\ViewRender;
 use Dotenv\Dotenv;
+use Modules\Application\MiddlewareHandleResolver;
+use Modules\Config;
+use Modules\Container\Container;
+use Modules\Middleware\HandleResolver;
+use Modules\Migration\Migrator;
+use Modules\View\ViewRender;
 use Psr\Container\ContainerInterface;
 
 require __DIR__.'/../vendor/autoload.php';

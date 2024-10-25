@@ -1,6 +1,6 @@
 <?php
 
-use App\Support\Migration\Migration;
+use Modules\Migration\Migration;
 
 return new class implements Migration
 {

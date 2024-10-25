@@ -1,13 +1,13 @@
 <?php
 
-/** @var Application $app */
+/** @var \Modules\Application\Application $app */
 
 use App\Middleware\ActionProfilerMiddleware;
 use App\Middleware\BasicAuthMiddleware;
 use App\Middleware\DeveloperMiddleware;
 use App\Middleware\NotFoundMiddleware;
 use App\Middleware\RouteMiddleware;
-use App\Support\Application\Application;
+use Modules\Application\Application;
 use Psr\Http\Message\ServerRequestInterface;
 
 $app->middleware(ActionProfilerMiddleware::class);
