@@ -13,9 +13,9 @@ class Container implements ContainerInterface
     private array $definitions = [];
     private array $cache = [];
 
-    public function __construct(array $definitions = [])
+    public function __construct(array $set = [])
     {
-        $this->definitions = $definitions;
+        $this->definitions = $set;
     }
 
     /**

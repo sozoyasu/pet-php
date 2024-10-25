@@ -6,7 +6,8 @@ use App\View\Extensions\HelloWorldViewExtension;
 
 return [
     'app' => [
-        'environment' => env('ENVIRONMENT', 'development'),
+        'environment' => env('APP_ENVIRONMENT', 'development'),
+        'isProduction' => env('APP_ENVIRONMENT', 'production') === 'production',
         'url' => env('APP_URL', 'http://localhost'),
     ],
 

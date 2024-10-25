@@ -4,8 +4,13 @@ namespace App\View\Extensions;
 
 class HelloWorldViewExtension
 {
-    public function __invoke(): string
+    public function alternative(): string
     {
-        return 'Hello World!';
+        return 'Alternative Hello';
+    }
+
+    public function __invoke(string $as = ''): string
+    {
+        return 'Hello World!' . $as;
     }
 }

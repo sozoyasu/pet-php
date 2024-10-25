@@ -1,12 +1,13 @@
 <?php
 
+use App\View\Extensions\ViteViewExtension;
 use Dotenv\Dotenv;
 use Modules\Application\MiddlewareHandleResolver;
 use Modules\Config;
 use Modules\Container\Container;
 use Modules\Middleware\HandleResolver;
 use Modules\Migration\Migrator;
-use Modules\View\ViewRender;
+use App\Support\View\ViewRender;
 use Psr\Container\ContainerInterface;
 
 require __DIR__.'/../vendor/autoload.php';
@@ -21,17 +22,27 @@ $container->set(HandleResolver::class, fn(Container $container) => new Middlewar
 $container->set(Config::class, fn() => new Config(require('config.php')));
 
 $container->set(ViewRender::class, function(ContainerInterface $container) {
+    /** @var Config $config */
     $config = $container->get(Config::class);
-    $extensions = [];
+    $render = new ViewRender($config('view.templates_patch'));
 
     foreach ($config('view.extensions', []) as $name => $class) {
-        $extensions[$name] = $container->get($class);
+        $render->expand($name, fn() => $container->get($class));
     }
 
-    return new ViewRender(
-        path: $config('view.templates_patch'),
-        extensions: $extensions,
-    );
+    $render->expand('vite', function () use ($config) {
+        return new ViteViewExtension(
+            isProduction: $config('isProduction'),
+            viteHost: env('VITE_HOST'),
+            vitePort: env('VITE_PORT'),
+            viteHttps: env('VITE_HTTP') == 'https',
+            productionPathReplaces: [
+                'resources' => 'assets'
+            ],
+        );
+    });
+
+    return $render;
 });
 
 $container->set(PDO::class, function(ContainerInterface $container) {

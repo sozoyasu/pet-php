@@ -1,14 +1,8 @@
 <?php
 
-use App\View\Extensions\HelloWorldViewExtension;
-use Modules\View\ViewRender;
+use App\Support\View\ViewRender;
 
-/**
- * @var ViewRender $this
- * @method HelloWorldViewExtension vite()
- */
-
-/** @var HelloWorldViewExtension $helloWorld */
+/** @var ViewRender $this */
 ?>
 
 <!doctype html>
@@ -20,12 +14,11 @@ use Modules\View\ViewRender;
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $title ?? '' ?></title>
 
-    <script type="module" src="http://localhost:3000/@vite/client"></script>
-    <link rel="stylesheet" href="http://localhost:3000/resources/css/app.css">
+    <?= $this->vite->asset('resources/css/app.css') ?>
 </head>
 <body>
 
     <div id="app"></div>
-    <script type="module" src="http://localhost:3000/resources/js/app.js"></script>
+    <?= $this->vite->asset('resources/js/app.js') ?>
 </body>
 </html>

@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Support\View\ViewRender;
 use Modules\Http\HtmlResponse;
-use Modules\View\ViewRender;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
