@@ -51,7 +51,7 @@ class ViteViewExtension
         return $result . PHP_EOL . $this->assetResolve($path);
     }
 
-    public function assetResolve(string $path): string
+    private function assetResolve(string $path): string
     {
         if (str_ends_with($path, ".js")) {
             return $this->jsAsset($path);
